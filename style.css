@@ -100,13 +100,13 @@ body {
     font-weight: 600;
     cursor: pointer;
     transition: all 0.3s;
-    box-shadow: 0 4px 6px rgba(229, 180, 84, 0.3);
+    box-shadow: 0 4px 6px rgba(195, 84, 229, 0.3);
 }
 
 .btn-primary:hover {
     background: #A855F7;
     transform: scale(1.05);
-    box-shadow: 0 6px 12px rgba(229, 180, 84, 0.5);
+    box-shadow: 0 6px 12px rgba(183, 84, 229, 0.5);
 }
 
 .btn-hero {
@@ -664,7 +664,7 @@ body {
 }
 
 .footer-legal a:hover {
-    color: #e5b454;
+    color: #9333EA;
 }
 
 /* ===== Animations ===== */
