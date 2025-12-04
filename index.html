@@ -20,6 +20,9 @@
 </script>
 </head>
 <body>
+    <div id="preloader">
+        <div class="loader"></div>
+    </div>
     <!-- Header -->
     <header class="header">
         <div class="container">
@@ -643,6 +646,17 @@
             </div>
         </div>
     </footer>
+    <script>
+        var loader = document.getElementById("preloader");
+
+        window.addEventListener("load", function(){
+            loader.style.opacity = "0";
+            loader.style.transition = "0.4s";
+            setTimeout(function(){
+                loader.style.display = "none";
+            }, 400);
+        });
+    </script>
 
     <script src="script.js"></script>
 </body>
