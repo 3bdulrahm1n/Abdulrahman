@@ -609,7 +609,7 @@ body {
     transition: all 0.3s;
 }
 
-.form-group input.focus,
+.form-group input:focus,
 .form-group textarea:focus {
     outline: none;
     border-color: #9333EA;
