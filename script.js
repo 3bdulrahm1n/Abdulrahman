@@ -173,6 +173,31 @@ function sendEmail(){
             });
 }
 
+// navbar mechanism for smaller devices
+const navbarToggle = document.querySelector(".nav-toggle")
+const navbar = document.querySelector(".nav")
+
+navbarToggle.addEventListener('click',()=>{
+    navbarToggle.classList.toggle('active');
+    navbar.classList.toggle('active');
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 console.log('Portfolio loaded successfully!');
