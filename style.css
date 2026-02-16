@@ -1156,7 +1156,7 @@ body {
             }
 
             .slider-controls {
-                bottom: 80px;
+                padding: 90px 50px;
                 gap: 10px;
             }
 
@@ -1171,7 +1171,7 @@ body {
             }
 
             .dots-navigation {
-                bottom: -50px;
+                bottom: -100px;
                 gap: 10px;
             }
 
@@ -1221,13 +1221,12 @@ body {
                 height: 50px;
             }
 
-            .slider-controls {
-                bottom: 70px;
+            .slider-controls{
+                padding: 90px 0px;
                 gap: 8px;
             }
-
-            .dots-navigation {
-                bottom: 40px;
+            .dots-navigation{
+                bottom: -100px;
             }
         }
 
@@ -1241,7 +1240,7 @@ body {
                 transform: translateY(0);
             }
         }
-        @media(max-width:370px){
+        @media(max-width:400px){
             .card-phone{
                 padding: 24px;
                 width: 270px;
