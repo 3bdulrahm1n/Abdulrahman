@@ -125,6 +125,17 @@ body {
     padding: 12px;
 }
 
+.nav-link2{
+    display: none;
+    position: relative;
+    color: #d1d5db;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.nav-link1:hover {
+    color: #A855F7;
+}
 
 .btn-hero:hover .icon-chevron {
     transform: translateY(4px);
@@ -516,8 +527,12 @@ body {
     .section-title {
         font-size: 36px;
     }
-    
-    .hero {
-        padding-top: 120px;
+    .images{
+        /* padding: 40px; */
+        column-count: unset;
+    }
+
+    .nav-link2{
+        display: flex;
     }
 }
