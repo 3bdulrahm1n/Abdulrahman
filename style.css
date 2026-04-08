@@ -765,7 +765,23 @@ body {
 .footer-legal a:hover {
     color: #9333EA;
 }
+.btn-full {
+    background: #9333EA;
+    color: #000;
+    border: none;
+    padding: 8px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s;
+    box-shadow: 0 4px 6px rgba(195, 84, 229, 0.3);
+}
 
+.btn-full:hover {
+    background: #A855F7;
+    transform: scale(1.05);
+    box-shadow: 0 6px 12px rgba(183, 84, 229, 0.5);
+}
 /* ===== Animations ===== */
 @keyframes fadeIn {
     from {
