@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3D-Abdulrahman - Creative Editor Portfolio</title>
+    <link rel="stylesheet" href="3d.css">
+    <link href="https://cdn.boxicons.com/3.0.8/fonts/basic/boxicons.min.css" rel="stylesheet">
+    <style>
+        /* تأثير المربعات */
+.projects-grid > div:hover {
+    transform: translateY(-5px);
+    border-color: #A855F7;
+    box-shadow: 0 10px 25px -5px rgba(147, 51, 234, 0.3);
+}
+
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #000000;
+  --bg2:      #230d35;
+  --panel:    rgba(255,255,255,0.03);
+  --border:   rgba(255,255,255,0.08);
+  --cyan:     #A855F7;
+  --gold:     #9333EA;
+  --white:    #FFFFFF;
+  --muted:    rgba(255,255,255,0.4);
+  --font:     'Cairo', sans-serif;
+  --mono:     'JetBrains Mono', monospace;
+}
+
+body {
+  background: var(--bg);
+  font-family: var(--font);
+  min-height: 100vh;
+  /* display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; */
+  overflow-x: hidden;
+  color: var(--white);
+}
+
+.page-header {
+  text-align: center;
+  margin-bottom: 48px;
+  position: relative; z-index: 1;
+}
+.page-header .sub {
+  font-size: 10px; letter-spacing: 5px;
+  color: var(--cyan); text-transform: uppercase;
+  margin-bottom: 12px; display: block; opacity: 0.7;
+}
+.page-header h1 {
+  font-size: clamp(28px, 5vw, 46px);
+  font-weight: 900; line-height: 1.2;
+  margin-top: 100px;
+}
+.page-header h1 span {
+  color: var(--cyan);
+  filter: drop-shadow(0 0 18px var(--cyan));
+}
+.page-header p {
+  color: var(--muted); font-size: 14px;
+  margin-top: 10px; letter-spacing: 0.3px;
+}
+
+.layout {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  gap: 28px;
+  width: min(1100px, 100%);
+  position: relative; z-index: 1;
+  align-items: start;
+  margin-left: 33%;
+}
+
+.form-panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  padding: 36px 32px;
+  position: relative;
+  overflow: hidden;
+}
+.form-panel::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(147, 0, 245, 0.4), transparent);
+}
+
+.field-group { margin-bottom: 28px; }
+.field-label {
+  font-size: 10px; letter-spacing: 3px;
+  color: var(--muted); text-transform: uppercase;
+  margin-bottom: 12px; display: flex;
+  align-items: center; gap: 8px;
+}
+.field-label .dot {
+  width: 5px; height: 5px; border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 8px var(--cyan);
+  flex-shrink: 0;
+}
+.field-label span { color: var(--cyan); font-size: 9px; }
+
+.options { display: flex; flex-wrap: wrap; gap: 8px; }
+.opt {
+  background: transparent;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 8px;
+  color: rgba(255,255,255,0.55);
+  font-family: var(--font);
+  font-size: 12px; font-weight: 700;
+  padding: 9px 16px;
+  cursor: pointer;
+  transition: all 0.22s;
+  position: relative; overflow: hidden;
+  white-space: nowrap;
+}
+.opt::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(147, 0, 245, 0.1), transparent);
+  opacity: 0; transition: opacity 0.22s;
+}
+.opt:hover { border-color: rgba(147, 0, 245, 0.4); color: var(--white); }
+.opt:hover::before { opacity: 1; }
+.opt.selected {
+  border-color: var(--cyan);
+  color: var(--cyan);
+  background: rgba(147, 0, 245, 0.4);
+  box-shadow: 0 0 16px rgba(147, 0, 245, 0.15);
+}
+.opt.selected::before { opacity: 1; }
+
+.range-wrap { padding: 4px 0; }
+.range-slider {
+  width: 100%;
+  -webkit-appearance: none;
+  background: transparent;
+  height: 2px; cursor: pointer;
+}
+.range-slider::-webkit-slider-runnable-track {
+  height: 2px;
+  background: rgba(255,255,255,0.1);
+  border-radius: 2px;
+}
+.range-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px; height: 18px;
+  border-radius: 50%;
+  background: var(--cyan);
+  box-shadow: 0 0 16px rgba(147, 0, 245, 0.4);
+  margin-top: -8px;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.range-slider::-webkit-slider-thumb:hover {
+  transform: scale(1.2);
+  box-shadow: 0 0 24px rgba(147, 0, 245, 0.8);
+}
+.range-labels {
+  display: flex; justify-content: space-between;
+  margin-top: 8px;
+}
+.range-labels span {
+  font-size: 10px; color: var(--muted);
+  font-family: var(--mono);
+}
+.range-value {
+  font-family: var(--mono);
+  font-size: 13px; color: var(--cyan);
+  text-align: center;
+  margin-top: 10px;
+  letter-spacing: 1px;
+}
+
+.divider {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.08), transparent);
+  margin: 28px 0;
+}
+
+.calc-btn {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(135deg, rgba(147, 0, 245, 0.15), rgba(147, 0, 245, 0.05));
+  border: 1px solid rgba(147, 0, 245, 0.5);
+  border-radius: 12px;
+  color: var(--cyan);
+  font-family: var(--font);
+  font-size: 15px; font-weight: 900;
+  letter-spacing: 2px;
+  cursor: pointer;
+  transition: all 0.3s;
+  position: relative; overflow: hidden;
+  box-shadow: 0 0 30px rgba(147, 0, 245, 0.1);
+}
+.calc-btn::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(135deg, rgba(147, 0, 245, 0.25), transparent);
+  opacity: 0; transition: opacity 0.3s;
+}
+.calc-btn:hover {
+  box-shadow: 0 0 50px rgba(147, 0, 245, 0.3);
+  transform: translateY(-2px);
+}
+.calc-btn:hover::before { opacity: 1; }
+.calc-btn:active { transform: translateY(0); }
+
+/* ── RESULT PANEL ── */
+.result-panel {
+  position: sticky;
+  top: 32px;
+}
+
+.result-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 20px;
+  overflow: hidden;
+  position: relative;
+  transition: border-color 0.5s, box-shadow 0.5s;
+}
+.result-card.active {
+  border-color: rgba(255,183,3,0.4);
+  box-shadow: 0 0 60px rgba(255,183,3,0.12), 0 0 120px rgba(255,183,3,0.06);
+}
+.result-card::before {
+  content: '';
+  position: absolute; top: 0; left: 0; right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(255,183,3,0.3), transparent);
+  opacity: 0; transition: opacity 0.5s;
+}
+.result-card.active::before { opacity: 1; }
+
+.result-scan {
+  position: absolute; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+  box-shadow: 0 0 14px var(--gold), 0 0 30px rgba(255,183,3,0.4);
+  top: -2px; opacity: 0; pointer-events: none; z-index: 10;
+}
+
+.result-header {
+  padding: 28px 28px 20px;
+  border-bottom: 1px solid var(--border);
+}
+.result-label {
+  font-size: 10px; letter-spacing: 4px;
+  color: var(--muted); text-transform: uppercase;
+  margin-bottom: 6px;
+}
+.result-title {
+  font-size: 16px; font-weight: 900;
+  color: var(--white);
+}
+
+.price-display {
+  padding: 36px 28px;
+  text-align: center;
+  position: relative;
+}
+.price-idle {
+  color: rgba(255,255,255,0.15);
+  font-size: 13px; letter-spacing: 2px;
+  text-transform: uppercase;
+  font-family: var(--mono);
+}
+.price-amount-wrap {
+  display: none;
+  flex-direction: column;
+  align-items: center;
+}
+.price-currency-sym {
+  font-size: 22px; font-weight: 900;
+  color: rgba(255,183,3,0.7);
+  font-family: var(--mono);
+  margin-bottom: -4px;
+  align-self: flex-start;
+  margin-top: 8px;
+}
+.price-number {
+  font-family: var(--mono);
+  font-size: 72px; font-weight: 600;
+  color: var(--gold);
+  text-shadow: 0 0 30px rgba(255,183,3,0.6), 0 0 60px rgba(255,183,3,0.3);
+  line-height: 1;
+  letter-spacing: -2px;
+}
+.price-range {
+  font-size: 12px; color: rgba(255,183,3,0.5);
+  font-family: var(--mono); margin-top: 8px;
+  letter-spacing: 1px;
+}
+
+.breakdown {
+  padding: 0 28px 28px;
+  display: none;
+}
+.breakdown-title {
+  font-size: 10px; letter-spacing: 3px;
+  color: var(--muted); text-transform: uppercase;
+  margin-bottom: 16px;
+}
+.breakdown-row {
+  display: flex; justify-content: space-between;
+  align-items: center; padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+  opacity: 0; transform: translateX(8px);
+  transition: opacity 0.35s, transform 0.35s;
+}
+.breakdown-row:last-child { border-bottom: none; }
+.breakdown-row.visible { opacity: 1; transform: translateX(0); }
+.br-label {
+  font-size: 12px; color: var(--muted);
+  display: flex; align-items: center; gap: 8px;
+}
+.br-label .tag {
+  font-size: 9px; letter-spacing: 1px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 4px; padding: 2px 6px;
+  color: rgba(255,255,255,0.3);
+}
+.br-value {
+  font-family: var(--mono); font-size: 13px;
+  font-weight: 600; color: var(--white);
+}
+.br-value.plus { color: var(--gold); }
+.br-value.base { color: var(--cyan); }
+
+.result-notice {
+  margin: 0 28px 28px;
+  padding: 14px 16px;
+  background: rgba(147, 0, 245, 0.04);
+  border: 1px solid rgba(147, 0, 245, 0.12);
+  border-radius: 10px;
+  font-size: 11px; color: rgba(255,255,255,0.35);
+  line-height: 1.8; display: none;
+}
+
+@media (max-width: 800px) {
+  .layout { grid-template-columns: 1fr; }
+  .result-panel { position: static; }
+}
+
+.pricing-section,
+.contact,
+.footer {
+  position: relative;
+  z-index: 1;
+}
+
+.contact.fade-in-section {
+  opacity: 1 !important;
+  transform: none !important;
+}
+</style>
+</head>
+<body>
+  <canvas id="particles"></canvas>
+        <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <h1 class="logo">Abdulrahman</h1>
+            <nav class="nav">
+                <a href="index.html" class="nav-link">
+                    <span>Home</span>
+                    <span class="underline"></span>
+                </a>
+                <a href="#Home" class="nav-link">
+                    <span>Works</span>
+                    <span class="underline"></span>
+                </a>
+                <a href="#contact" class="nav-link">
+                    <span>Contact</span>
+                    <span class="underline"></span>
+                </a>
+                <a href="3d.html" class="nav-link">
+                    <span>3D</span>
+                    <span class="underline"></span>
+                </a>
+                <a href="#" class="nav-link1">
+                    <span>Pricing</span>
+                    <span class="underline1"></span>
+                </a>
+            </nav>
+            <a href="index.html" class="nav-link2">
+                <span>Home-Page</span>
+                <span class="underline"></span>
+            </a>
+            <a href="https://wa.me/201111218591?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D8%A3%D9%86%D8%A7%20%D9%85%D9%87%D8%AA%D9%85%20%D8%A8%D8%AE%D8%AF%D9%85%D8%A7%D8%AA%D9%83%D9%85"> <button class="btn-primary">Get Started</button></a>
+        </div>
+    </header>
+    
+
+
+<div class="page-header">
+  <span class="sub">تقدير فوري وذكي</span>
+  <h1>حاسبة <span>سعر الفيديو</span></h1>
+  <p>أدخل تفاصيل مشروعك واحصل على تقدير سعر فوري.</p>
+</div>
+
+<div class="layout">
+
+  <!-- ══ نتيجة السعر (يسار) ══ -->
+  <div class="result-panel">
+    <div class="result-card" id="result-card">
+      <div class="result-scan" id="result-scan"></div>
+
+      <div class="result-header">
+        <div class="result-label">تقديرك الآن</div>
+        <div class="result-title">السعر النهائي للمشروع</div>
+      </div>
+
+      <div class="price-display">
+        <div class="price-idle" id="price-idle">
+          — أكمل النموذج واضغط احسب —
+        </div>
+        <div class="price-amount-wrap" id="price-wrap">
+          <div style="display:flex;align-items:flex-start;gap:4px;">
+            <span class="price-currency-sym">$</span>
+            <span class="price-number" id="price-number">0</span>
+          </div>
+          <div class="price-range" id="price-range">التقدير الإجمالي</div>
+        </div>
+      </div>
+
+      <div class="breakdown" id="breakdown">
+        <div class="breakdown-title">تفصيل السعر</div>
+        <div class="breakdown-row" id="br-quality">
+          <span class="br-label">الجودة <span class="tag">أساس</span></span>
+          <span class="br-value base" id="br-quality-val">—</span>
+        </div>
+        <div class="breakdown-row" id="br-duration">
+          <span class="br-label">المدة الزمنية <span class="tag">×</span></span>
+          <span class="br-value" id="br-duration-val">—</span>
+        </div>
+        <div class="breakdown-row" id="br-style">
+          <span class="br-label">معامل الستايل <span class="tag">×</span></span>
+          <span class="br-value" id="br-style-val">—</span>
+        </div>
+        <div class="breakdown-row" id="br-location">
+          <span class="br-label">إضافة السوق <span class="tag">+</span></span>
+          <span class="br-value plus" id="br-location-val">—</span>
+        </div>
+        <div class="breakdown-row" id="br-budget">
+          <span class="br-label">مستوى الميزانية <span class="tag">+</span></span>
+          <span class="br-value plus" id="br-budget-val">—</span>
+        </div>
+      </div>
+
+      <div class="result-notice" id="result-notice">
+        * هذا تقدير آلي. قد يختلف السعر النهائي بناءً على نطاق المشروع
+        والتعديلات والمتطلبات الخاصة. تواصل معنا للحصول على عرض سعر مخصص.
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ نموذج الإدخال (يمين) ══ -->
+  <div class="form-panel">
+
+    <!-- 1. جودة الفيديو -->
+    <div class="field-group">
+      <div class="field-label">
+        <span class="dot"></span>
+        جودة الفيديو
+        <span>مطلوب</span>
+      </div>
+      <div class="options" id="opt-quality">
+        <button class="opt" data-val="720" onclick="select(this,'quality')">720p HD</button>
+        <button class="opt" data-val="1080" onclick="select(this,'quality')">1080p Full HD</button>
+        <button class="opt selected" data-val="2160" onclick="select(this,'quality')">4K Ultra HD</button>
+        <button class="opt" data-val="2160cg" onclick="select(this,'quality')">4K + Color Grade</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 2. مدة الفيديو -->
+    <div class="field-group">
+      <div class="field-label">
+        <span class="dot"></span>
+        مدة الفيديو
+        <span>دقائق</span>
+      </div>
+      <div class="range-wrap">
+        <input type="range" class="range-slider" id="duration-slider"
+               min="1" max="10" step="0.5" value="2"
+               oninput="updateDuration(this.value)">
+        <div class="range-labels">
+          <span>1 د</span>
+          <span>5 د</span>
+          <span>10 د</span>
+        </div>
+        <div class="range-value" id="duration-val">2.0 دقيقة</div>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 3. موقع العميل -->
+    <div class="field-group">
+      <div class="field-label">
+        <span class="dot"></span>
+        موقع العميل
+        <span>السوق</span>
+      </div>
+      <div class="options" id="opt-location">
+        <button class="opt" data-val="local" onclick="select(this,'location')">🇪🇬 مصر / الشام</button>
+        <button class="opt selected" data-val="gulf" onclick="select(this,'location')">🇸🇦 الخليج العربي</button>
+        <button class="opt" data-val="europe" onclick="select(this,'location')">🇪🇺 أوروبا</button>
+        <button class="opt" data-val="us" onclick="select(this,'location')">🇺🇸 أمريكا / كندا</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 4. ميزانية العميل -->
+    <div class="field-group">
+      <div class="field-label">
+        <span class="dot"></span>
+        ميزانية العميل
+        <span>دولار</span>
+      </div>
+      <div class="options" id="opt-budget">
+        <button class="opt" data-val="low" onclick="select(this,'budget')">أقل من $500</button>
+        <button class="opt selected" data-val="mid" onclick="select(this,'budget')">$500 – $2,000</button>
+        <button class="opt" data-val="high" onclick="select(this,'budget')">$2,000 – $5,000</button>
+        <button class="opt" data-val="premium" onclick="select(this,'budget')">$5,000 فأكثر</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <!-- 5. ستايل الفيديو -->
+    <div class="field-group">
+      <div class="field-label">
+        <span class="dot"></span>
+        ستايل الفيديو
+        <span>نوع الإنتاج</span>
+      </div>
+      <div class="options" id="opt-style">
+        <button class="opt" data-val="motion" onclick="select(this,'style')">موشن جرافيكس</button>
+        <button class="opt selected" data-val="cinematic" onclick="select(this,'style')">سينمائي</button>
+        <button class="opt" data-val="corporate" onclick="select(this,'style')">كوربوريت</button>
+        <button class="opt" data-val="social" onclick="select(this,'style')">سوشيال ميديا</button>
+        <button class="opt" data-val="documentary" onclick="select(this,'style')">وثائقي</button>
+        <button class="opt" data-val="animation" onclick="select(this,'style')">أنيميشن 2D</button>
+      </div>
+    </div>
+
+    <div class="divider"></div>
+
+    <button class="calc-btn" onclick="calculate()">
+      ← احسب سعر الفيديو
+    </button>
+
+  </div>
+
+</div>
+
+<script>
+/* ── STATE ── */
+const selections = { quality:'2160', location:'gulf', budget:'mid', style:'cinematic' };
+let duration = 2.0;
+
+function select(el, group){
+  document.querySelectorAll(`#opt-${group} .opt`).forEach(o=>o.classList.remove('selected'));
+  el.classList.add('selected');
+  selections[group] = el.dataset.val;
+}
+
+function updateDuration(v){
+  duration = parseFloat(v);
+  document.getElementById('duration-val').textContent = duration.toFixed(1) + ' دقيقة';
+}
+
+/* ── PRICING ── */
+const qualityBase  = { '720':150, '1080':300, '2160':550, '2160cg':800 };
+const qualityLabel = { '720':'720p HD', '1080':'1080p Full HD', '2160':'4K Ultra HD', '2160cg':'4K + Color Grade' };
+const locationMult = { local:0, gulf:120, europe:200, us:280 };
+const locationLabel= { local:'مصر / الشام', gulf:'الخليج العربي', europe:'أوروبا', us:'أمريكا / كندا' };
+const budgetAdd    = { low:0, mid:80, high:200, premium:400 };
+const budgetLabel  = { low:'أقل من $500', mid:'$500–$2,000', high:'$2,000–$5,000', premium:'$5,000+' };
+const styleMult    = { motion:1.2, cinematic:1.5, corporate:1.1, social:0.9, documentary:1.35, animation:1.6 };
+const styleLabel   = { motion:'موشن جرافيكس', cinematic:'سينمائي', corporate:'كوربوريت', social:'سوشيال ميديا', documentary:'وثائقي', animation:'أنيميشن 2D' };
+
+async function calculate(){
+  const base      = qualityBase[selections.quality];
+  const durCost   = base * duration * 0.4;
+  const styleCost = (base + durCost) * (styleMult[selections.style] - 1);
+  const locAdd    = locationMult[selections.location];
+  const budAdd    = budgetAdd[selections.budget];
+  const total     = Math.round(base + durCost + styleCost + locAdd + budAdd);
+
+  /* scan line */
+  const card = document.getElementById('result-card');
+  const scan = document.getElementById('result-scan');
+  const cardH = card.offsetHeight;
+  scan.style.opacity = 1; scan.style.top = '0px';
+  const start = performance.now();
+  await new Promise(res=>{
+    requestAnimationFrame(function sweep(now){
+      const p = Math.min((now-start)/550, 1);
+      scan.style.top = (p*cardH)+'px';
+      if(p<1) requestAnimationFrame(sweep);
+      else { scan.style.opacity=0; res(); }
+    });
+  });
+
+  card.classList.add('active');
+  document.getElementById('price-idle').style.display = 'none';
+  const wrap = document.getElementById('price-wrap');
+  wrap.style.display = 'flex';
+
+  /* count-up */
+  const numEl = document.getElementById('price-number');
+  const startT = performance.now();
+  await new Promise(res=>{
+    requestAnimationFrame(function tick(now){
+      const p = Math.min((now-startT)/900, 1);
+      const e = 1 - Math.pow(1-p, 3);
+      numEl.textContent = Math.round(e*total).toLocaleString();
+      if(p<1) requestAnimationFrame(tick);
+      else { numEl.textContent = total.toLocaleString(); res(); }
+    });
+  });
+
+  document.getElementById('price-range').textContent =
+    `هامش تقريبي ± $${Math.round(total*0.08).toLocaleString()}`;
+
+  /* breakdown */
+  document.getElementById('breakdown').style.display = 'block';
+  document.getElementById('br-quality-val').textContent  = `$${base} (${qualityLabel[selections.quality]})`;
+  document.getElementById('br-duration-val').textContent = `$${Math.round(durCost)} (${duration} د × المعدل)`;
+  document.getElementById('br-style-val').textContent    = `$${Math.round(styleCost)} (${styleLabel[selections.style]})`;
+  document.getElementById('br-location-val').textContent = `+$${locAdd} (${locationLabel[selections.location]})`;
+  document.getElementById('br-budget-val').textContent   = `+$${budAdd} (${budgetLabel[selections.budget]})`;
+
+  document.querySelectorAll('.breakdown-row').forEach((row,i) => {
+    row.classList.remove('visible');
+    setTimeout(()=>row.classList.add('visible'), 200 + i*80);
+  });
+
+  document.getElementById('result-notice').style.display = 'block';
+}
+</script>
+
+
+
+    <!-- Contact Section -->
+    <section id="contact" class="contact fade-in-section">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h3 class="section-title">
+                        Got a project in <span class="gold">mind?</span>
+                    </h3>
+                    <p class="contact-text">
+                        Let's collaborate and create something amazing together. Get in touch with me today!
+                    </p>
+                    
+                    <div class="contact-links">
+                        <a href="mailto:hello@developer.com" class="contact-link">
+                            <div class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                    <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                    <polyline points="22,6 12,13 2,6"></polyline>
+                                </svg>
+                            </div>
+                            <span>abdulrahmansherif184@gmail.com</span>
+                        </a>
+                        <a href="https://www.instagram.com/3bdulrahm1n/?__pwa=1" class="contact-link">
+                            <div class="contact-icon">
+                                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                 <circle cx="12" cy="12" r="3.5"></circle>
+                                 <circle cx="18" cy="6" r="1"></circle>
+                                </svg>
+                            </div>
+                            <span>instagram.com/abdulrahman</span>
+                        </a>
+                        <a href="https://www.youtube.com/channel/UCF0puorCXObqoYc5TotQL7g" class="contact-link">
+                            <div class="contact-icon">
+                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-2C18.88 4 12 4 12 4s-6.88 0-8.59.42a2.78 2.78 0 0 0-1.95 2A29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 2C5.12 20 12 20 12 20s6.88 0 8.59-.42a2.78 2.78 0 0 0 1.95-2A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z"></path>
+                         <polygon points="10 8.5 16 12 10 15.5 10 8.5"></polygon>
+                        </svg>
+
+                            </div>
+                            <span>youtube.com/abdulrahman</span>
+                        </a>
+                    </div>
+                </div>
+
+                    <div class="contact-form-wrapper">
+                    <form class="contact-form" id="contactForm">
+                    <div class="form-group">
+                        <label for="name">Your name</label>
+                        <input type="text" id="name" name="user_name" placeholder="Enter your name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="email">Your email</label>
+                        <input type="email" id="email" name="user_email" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Your message</label>
+                        <textarea id="message" name="message" rows="4" placeholder="Tell me about your project..." required></textarea>
+                    </div>
+                    <button type="submit" class="btn-full" onclick="sendEmail()">Send Message</button>
+                    </form>
+                        <!-- <script type="module">
+                        import emailjs from 'https://cdn.jsdelivr.net/npm/@emailjs/browser@3.15.0/dist/email.min.js';
+
+                        // تهيئة Public Key
+                        emailjs.init("DHuApjuLBLDdWDMb2");
+
+                        const form = document.getElementById('contactForm');
+
+                        form.addEventListener('submit', function(event) {
+                            event.preventDefault();
+
+                            const formData = {
+                            user_name: document.getElementById('name').value,
+                            user_email: document.getElementById('email').value,
+                            message: document.getElementById('message').value
+                            };
+
+                            emailjs.send("service_97532as", "template_857g70i", formData)
+                            .then(function() {
+                                alert('Message sent successfully!');
+                            })
+                            .catch(function(error) {
+                                alert('Failed to send message: ' + JSON.stringify(error));
+                            });
+                        });
+                        </script> -->
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Project Planning Card -->
+            <!-- <div class="planning-card-wrapper">
+                <div class="card-phone">
+                    <svg class="icon-phone-large pulse-slow" width="96" height="192" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <rect x="5" y="2" width="14" height="20" rx="2" ry="2"></rect>
+                        <line x1="12" y1="18" x2="12.01" y2="18"></line>
+                    </svg>
+                    <p class="card-label">Project Planning</p>
+                </div>
+            </div>
+        </div>-->
+    </section> 
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h4 class="footer-title">Abdulrahman</h4>
+                    <p class="footer-text">Creating beautiful digital experiences</p>
+                </div>
+                <div class="footer-col">
+                    <h5 class="footer-heading">Quick Links</h5>
+                    <div class="footer-links">
+                        <a href="#home">Home</a>
+                        <a href="#about">About</a>
+                        <a href="#works">Works</a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h5 class="footer-heading">Follow</h5>
+                    <div class="social-links">
+                        <a href="https://www.youtube.com/channel/UCF0puorCXObqoYc5TotQL7g" class="social-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-2C18.88 4 12 4 12 4s-6.88 0-8.59.42a2.78 2.78 0 0 0-1.95 2A29.94 29.94 0 0 0 1 12a29.94 29.94 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 2C5.12 20 12 20 12 20s6.88 0 8.59-.42a2.78 2.78 0 0 0 1.95-2A29.94 29.94 0 0 0 23 12a29.94 29.94 0 0 0-.46-5.58z"></path>
+                            <polygon points="10 8.5 16 12 10 15.5 10 8.5"></polygon>
+                            </svg>
+                        </a>
+                        <a href="https://www.instagram.com/3bdulrahm1n/?__pwa=1" class="social-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <circle cx="12" cy="12" r="3.5"></circle>
+                                <circle cx="18" cy="6" r="1"></circle>
+                            </svg>
+                        </a>
+                        <a href="https://wa.me/201111218591?text=%D8%A7%D9%84%D8%B3%D9%84%D8%A7%D9%85%20%D8%B9%D9%84%D9%8A%D9%83%D9%85%20%D8%A3%D9%86%D8%A7%20%D9%85%D9%87%D8%AA%D9%85%20%D8%A8%D8%AE%D8%AF%D9%85%D8%A7%D8%AA%D9%83%D9%85" class="social-icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 448 512">
+                        <path fill="#FFFFFF" d="M380.9 97.1c-41.9-42-97.7-65.1-157-65.1-122.4 0-222 99.6-222 222 0 39.1 10.2 77.3 29.6 111L0 480 117.7 449.1c32.4 17.7 68.9 27 106.1 27l.1 0c122.3 0 224.1-99.6 224.1-222 0-59.3-25.2-115-67.1-157zm-157 341.6c-33.2 0-65.7-8.9-94-25.7l-6.7-4-69.8 18.3 18.6-68.1-4.4-7c-18.5-29.4-28.2-63.3-28.2-98.2 0-101.7 82.8-184.5 184.6-184.5 49.3 0 95.6 19.2 130.4 54.1s56.2 81.2 56.1 130.5c0 101.8-84.9 184.6-186.6 184.6zM325.1 300.5c-5.5-2.8-32.8-16.2-37.9-18-5.1-1.9-8.8-2.8-12.5 2.8s-14.3 18-17.6 21.8c-3.2 3.7-6.5 4.2-12 1.4-32.6-16.3-54-29.1-75.5-66-5.7-9.8 5.7-9.1 16.3-30.3 1.8-3.7 .9-6.9-.5-9.7s-12.5-30.1-17.1-41.2c-4.5-10.8-9.1-9.3-12.5-9.5-3.2-.2-6.9-.2-10.6-.2s-9.7 1.4-14.8 6.9c-5.1 5.6-19.4 19-19.4 46.3s19.9 53.7 22.6 57.4c2.8 3.7 39.1 59.7 94.8 83.8 35.2 15.2 49 16.5 66.6 13.9 10.7-1.6 32.8-13.4 37.4-26.4s4.6-24.1 3.2-26.4c-1.3-2.5-5-3.9-10.5-6.6z"/>
+                        </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 HeadDeveloper. All rights reserved.</p>
+                <div class="footer-legal">
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
